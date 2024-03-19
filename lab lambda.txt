@@ -1,0 +1,29 @@
+Hello World AWS:
+	Crear proyecto y añadir esa clase de MathServices
+	Ejecutar mvn package o mvn clean install
+	Entrar a AWS Academy
+	Acceder al servicio Lambda
+	Crear una función llamada square, con java 17 o 21, x86_64, rol de ejecución existente con LabRole
+	Cargamos el código desde el Jar
+	Indicamos la ruta hasta la clase y el método
+	Probamos la función en la pestaña de Probar colocando el caso de prueba
+		- Si sale verde, funcionó y puedo ver el resultado
+		- Sino, ver si algo se cargó mal
+
+	Para exponer la función, se hace por medio de un API Gateway:
+		Crear API REST con un nombre y que sea regional
+		Crear un método GET a partir de la función Lambda (Aparece dibujo de capa de integración)
+		Editar solicitud de método para añadir un parámetro
+		Editar solicitud de integración añadir el parámetro de cadena de consulta con method.request.querystring.value
+		y añadir plantilla como JSON - empty y poner un valor en el cuerpo (ej. 6)
+		Al probar, independiente al valor pondrá 36
+		Para pasar el valor bien, editamos la solicitud de integración en el mapeo con $input.params("value")
+		Al probar, tendremos el cuadrado del valor que enviemos como parámetro (ej. value=9)
+		Damos en Implementar API y colocamos beta como nombre de etapa
+		Al darnos el link, podemos enviar el query y nos enviará el JSON como resultado
+
+En caso de que la respuesta deba ser un objeto, ejemplo el JSON de un usuario con nombre y contraseña, el mapeo se puede manejar de la siguiente forma
+
+{ "username": "$input.params("username")",  "password": "$input.params("password")" }
+
+Las comillas no afectan para la ejecución del comando, se requieren por el formato JSON
